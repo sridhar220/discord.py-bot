@@ -36,9 +36,9 @@ async def cmdlist(ctx):
     cmdListEmbed = discord.Embed(color = THEME)
     cmdListEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     cmdListEmbed.set_thumbnail(url = thumbnails['CMDLIST'])
-    cmdListEmbed.add_field(name = 'General Commands', value = '`serverinfo` `weather`'   , inline = False)
-    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `gif`'        , inline = False)
-    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `animesearch`'    , inline = False)
+    cmdListEmbed.add_field(name = 'General Commands', value = '`serverinfo` `weather`'         , inline = False)
+    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `gif`'              , inline = False)
+    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `animesearch`' , inline = False)
 
     await ctx.send(embed = cmdListEmbed)
 
@@ -136,6 +136,38 @@ async def waifu(ctx):
     waifuEmbed.set_image(url = imageLink)
 
     await ctx.send(embed = waifuEmbed)
+
+@client.command()
+async def anipic(ctx, *args):
+    picQuery = str(' '.join(args)).lower()
+    picList = ['poke','neko','shinobu','megumin','bully','cuddle','cry','hug','awoo','kiss','lick','pat','smug','bonk','yeet','blush','smile','wave','highfive','handhold','nom','bite','glomp','slap','kill','happy','wink','dance','cringe']
+    listLength = len(picList)
+    if not picQuery:
+        number = random.randint(0, listLength - 1)
+        picData = requests.get('https://api.waifu.pics/sfw/' + picList[number]).json()
+        imageLink = picData['url']
+
+        picEmbed = discord.Embed(url = imageLink, title = 'Here\'s your anime picture!', color = THEME)
+        picEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
+        picEmbed.set_image(url = imageLink)
+
+    else:
+        category = ''
+        for i in range(0, listLength - 1):
+            if picList[i] == picQuery:
+                category = picList[i]
+
+        if category == '':
+            return await ctx.reply('Invalid category!')
+        
+        picData = requests.get('https://api.waifu.pics/sfw/' + category).json()
+        imageLink = picData['url']
+
+        picEmbed = discord.Embed(url = imageLink, title = 'Here\'s your anime picture!', color = THEME)
+        picEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
+        picEmbed.set_image(url = imageLink)
+
+    await ctx.send(embed = picEmbed)
 
 @client.command()
 async def animesearch(ctx, *args):
