@@ -1,0 +1,9 @@
+{
+    "TOKEN"   : "ENTER-BOT-TOKEN",
+    "PREFIX"  : "ENTER-BOT-PREFIX",
+    "THEME"   : "ENTER-COLOR-CODE",
+
+    "CREATOR" : {
+        "ID"  : "ENTER-CREATOR'S-DISCORD-ID" 
+    }
+}
