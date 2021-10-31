@@ -55,10 +55,10 @@ async def profilepic(ctx, member: discord.Member = None):
 @client.command()
 async def serverinfo(ctx):
     guildOwnerID     = str(ctx.guild.owner_id)
-    guildName        = str(ctx.guild.name)
-    guildDescription = str(ctx.guild.description)
+    guildName        = ctx.guild.name
+    guildDescription = ctx.guild.description
     memberCount      = str(ctx.guild.member_count)
-    guildIcon        = str(ctx.guild.icon_url)
+    guildIcon        = ctx.guild.icon_url
     textChannels     = str(len(ctx.guild.text_channels))
     voiceChannels    = str(len(ctx.guild.voice_channels))
 
@@ -77,7 +77,7 @@ async def serverinfo(ctx):
 
 @client.command()
 async def weather(ctx, *args):
-    searchLocation = str(' '.join(args))
+    searchLocation = ' '.join(args)
     if not searchLocation:
         return await ctx.reply('Please mention a location!')
     
@@ -141,7 +141,7 @@ async def dadjoke(ctx):
 
 @client.command()
 async def gif(ctx, *args):
-    searchQuery = str(' '.join(args))
+    searchQuery = ' '.join(args)
     if not searchQuery:
         gifData   = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + apikeys['GIPHY']).json()
         imageLink = gifData['data']['images']['original']['url']
@@ -177,7 +177,7 @@ async def waifu(ctx):
 
 @client.command()
 async def anipic(ctx, *args):
-    picQuery = str(' '.join(args)).lower()
+    picQuery = ' '.join(args).lower()
     picList = ['poke','neko','shinobu','megumin','bully','cuddle','cry','hug','awoo','kiss','lick','pat','smug','bonk','yeet','blush','smile','wave','highfive','handhold','nom','bite','glomp','slap','kill','happy','wink','dance','cringe']
     listLength = len(picList)
     if not picQuery:
@@ -209,7 +209,7 @@ async def anipic(ctx, *args):
 
 @client.command()
 async def animesearch(ctx, *args):
-    searchQuery = str(' '.join(args))
+    searchQuery = ' '.join(args)
     if not searchQuery:
         return await ctx.reply('Please enter a search query!')
 
@@ -218,18 +218,18 @@ async def animesearch(ctx, *args):
     if animeData['meta']['count'] == 0:
         return await ctx.reply('Unfortunately, no results were found.')
 
-    animeId          = str(animeData['data'][0]['id'])
+    animeId          = animeData['data'][0]['id']
     animeURL         = 'https://kitsu.io/anime/' + animeId
-    animeTitle       = str(animeData['data'][0]['attributes']['titles']['en_jp'])
-    animeThumbnail   = str(animeData['data'][0]['attributes']['posterImage']['large'])
-    animeDescription = str(animeData['data'][0]['attributes']['synopsis'])
-    animeEpisodes    = str(animeData['data'][0]['attributes']['episodeCount'])
-    animePopularity  = str(animeData['data'][0]['attributes']['popularityRank'])
-    animeRatings     = str(animeData['data'][0]['attributes']['averageRating'])
-    animeAirDate     = str(animeData['data'][0]['attributes']['startDate'])
-    animeEndDate     = str(animeData['data'][0]['attributes']['endDate'])
-    ageRating        = str(animeData['data'][0]['attributes']['ageRating'])
-    ageRatingGuide   = str(animeData['data'][0]['attributes']['ageRatingGuide'])
+    animeTitle       = animeData['data'][0]['attributes']['titles']['en_jp']
+    animeThumbnail   = animeData['data'][0]['attributes']['posterImage']['large']
+    animeDescription = animeData['data'][0]['attributes']['synopsis']
+    animeEpisodes    = animeData['data'][0]['attributes']['episodeCount']
+    animePopularity  = animeData['data'][0]['attributes']['popularityRank']
+    animeRatings     = animeData['data'][0]['attributes']['averageRating']
+    animeAirDate     = animeData['data'][0]['attributes']['startDate']
+    animeEndDate     = animeData['data'][0]['attributes']['endDate']
+    ageRating        = animeData['data'][0]['attributes']['ageRating']
+    ageRatingGuide   = animeData['data'][0]['attributes']['ageRatingGuide']
 
     animeEmbed = discord.Embed(url = animeURL, title = animeTitle, description = animeDescription, color = THEME)
     animeEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
