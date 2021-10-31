@@ -36,9 +36,9 @@ async def cmdlist(ctx):
     cmdListEmbed = discord.Embed(color = THEME)
     cmdListEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     cmdListEmbed.set_thumbnail(url = thumbnails['CMDLIST'])
-    cmdListEmbed.add_field(name = 'General Commands', value = '`profilepic` `serverinfo` `weather`', inline = False)
-    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `dadjoke` `gif`'        , inline = False)
-    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `animesearch`'     , inline = False)
+    cmdListEmbed.add_field(name = 'General Commands', value = '`profilepic` `serverinfo` `weather`'  , inline = False)
+    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `ppmeter` `dadjoke` `gif`', inline = False)
+    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `animesearch`'       , inline = False)
 
     await ctx.send(embed = cmdListEmbed)
 
@@ -105,11 +105,29 @@ async def weather(ctx, *args):
     await ctx.send(embed = weatherEmbed)
 
 @client.command()
-async def geekmeter(ctx):
+async def geekmeter(ctx, member: discord.Member = None):
+    target = member or ctx.author
+    if target.bot:
+        return await ctx.reply('Bots are not geeks!')
+        
     percent   = str(random.randint(0,100))
-    geekEmbed = discord.Embed(title = 'GeekMeter', description = 'Reading: ' + '`' + percent + '%`', color = THEME)
+    geekEmbed = discord.Embed(title = 'GeekMeter', description = target.name + '\'s Reading: ' + '`' + percent + '%`', color = THEME)
     geekEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     await ctx.send(embed = geekEmbed)
+
+@client.command()
+async def ppmeter(ctx, member: discord.Member = None):
+    pp = '8'
+    number = random.randint(0,9)
+    for i in range(number + 1): pp += '='
+    pp += 'D'
+
+    target = member or ctx.author
+    if target.bot: return await ctx.reply('Bots do not have a pp!')
+    if str(target.id) == config['CREATOR']['ID']: return await ctx.reply('Too huge!') 
+
+    ppEmbed = discord.Embed(title = 'PP Meter', description = target.name + '\'s Reading: `' + pp + '`', color = THEME)
+    await ctx.send(embed = ppEmbed)
 
 @client.command()
 async def dadjoke(ctx):
