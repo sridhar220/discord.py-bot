@@ -36,11 +36,21 @@ async def cmdlist(ctx):
     cmdListEmbed = discord.Embed(color = THEME)
     cmdListEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     cmdListEmbed.set_thumbnail(url = thumbnails['CMDLIST'])
-    cmdListEmbed.add_field(name = 'General Commands', value = '`serverinfo` `weather`'         , inline = False)
-    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `gif`'              , inline = False)
-    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `animesearch`' , inline = False)
+    cmdListEmbed.add_field(name = 'General Commands', value = '`profilepic` `serverinfo` `weather`', inline = False)
+    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `dadjoke` `gif`'        , inline = False)
+    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `animesearch`'     , inline = False)
 
     await ctx.send(embed = cmdListEmbed)
+
+@client.command()
+async def profilepic(ctx, member: discord.Member = None):
+    target = member or ctx.author
+    imageLink = target.avatar_url
+    profileEmbed = discord.Embed(url = imageLink, title = target.name + '\'s Profile Picture', color = THEME)
+    profileEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
+    profileEmbed.set_image(url = imageLink)
+
+    await ctx.send(embed = profileEmbed)
 
 @client.command()
 async def serverinfo(ctx):
@@ -100,6 +110,16 @@ async def geekmeter(ctx):
     geekEmbed = discord.Embed(title = 'GeekMeter', description = 'Reading: ' + '`' + percent + '%`', color = THEME)
     geekEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     await ctx.send(embed = geekEmbed)
+
+@client.command()
+async def dadjoke(ctx):
+    jokeData = requests.get('https://icanhazdadjoke.com/slack').json()
+    joke = jokeData['attachments'][0]['text']
+    jokeEmbed = discord.Embed(title = 'Here\'s your dad joke!', description = joke, color = THEME)
+    jokeEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
+    jokeEmbed.set_thumbnail(url = thumbnails['DADJOKE'])
+
+    await ctx.send(embed = jokeEmbed)
 
 @client.command()
 async def gif(ctx, *args):
