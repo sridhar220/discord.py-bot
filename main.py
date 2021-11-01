@@ -36,9 +36,9 @@ async def cmdlist(ctx):
     cmdListEmbed = discord.Embed(color = THEME)
     cmdListEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     cmdListEmbed.set_thumbnail(url = thumbnails['CMDLIST'])
-    cmdListEmbed.add_field(name = 'General Commands', value = '`profilepic` `serverinfo` `weather`'  , inline = False)
-    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `ppmeter` `dadjoke` `gif`', inline = False)
-    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `animesearch`'       , inline = False)
+    cmdListEmbed.add_field(name = 'General Commands', value = '`profilepic` `serverinfo` `weather`'       , inline = False)
+    cmdListEmbed.add_field(name = 'Fun Commands'    , value = '`geekmeter` `ppmeter` `dadjoke` `gif`'     , inline = False)
+    cmdListEmbed.add_field(name = 'Anime Commands'  , value = '`waifu` `anipic` `aniquote` `animesearch`' , inline = False)
 
     await ctx.send(embed = cmdListEmbed)
 
@@ -206,6 +206,17 @@ async def anipic(ctx, *args):
         picEmbed.set_image(url = imageLink)
 
     await ctx.send(embed = picEmbed)
+
+@client.command()
+async def aniquote(ctx):
+    quoteData = requests.get('https://animechan.vercel.app/api/random/').json()
+    quoteTitle = quoteData['anime']
+    quote = '*' + quoteData['quote'] + '*' + '\n-***' + quoteData['character'] + '***'
+
+    quoteEmbed = discord.Embed(title = quoteTitle, description = quote, color = THEME)
+    quoteEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
+
+    await ctx.send(embed = quoteEmbed)
 
 @client.command()
 async def animesearch(ctx, *args):
