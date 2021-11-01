@@ -2,9 +2,8 @@ import discord
 from discord.ext import commands
 
 import json
-with open("C:/Users/<ENTER-USER-NAME>/Desktop/<ENTER-FOLDER-NAME>/jsonfiles/config.json")     as g: config     = json.load(g)
-with open("C:/Users/<ENTER-USER-NAME>/Desktop/<ENTER-FOLDER-NAME>/jsonfiles/apikeys.json")    as h: apikeys    = json.load(h)
-with open("C:/Users/<ENTER-USER-NAME>/Desktop/<ENTER-FOLDER-NAME>/jsonfiles/thumbnails.json") as i: thumbnails = json.load(i)
+with open("C:/Users/<ENTER-USER-NAME>/Desktop/<ENTER-FOLDER-NAME>/config/config.json")     as g: config     = json.load(g)
+with open("C:/Users/<ENTER-USER-NAME>/Desktop/<ENTER-FOLDER-NAME>/config/thumbnails.json") as h: thumbnails = json.load(h)
 
 import datetime, random, requests
 
@@ -81,7 +80,7 @@ async def weather(ctx, *args):
     if not searchLocation:
         return await ctx.reply('Please mention a location!')
     
-    weatherData = requests.get('http://api.openweathermap.org/data/2.5/weather?appid=' + apikeys['WEATHER'] + '&q=' + searchLocation).json()
+    weatherData = requests.get('http://api.openweathermap.org/data/2.5/weather?appid=' + config['APIKEYS']['WEATHER'] + '&q=' + searchLocation).json()
 
     if weatherData['cod'] != 200:
         return await ctx.reply('Could not find the location.')
@@ -143,14 +142,14 @@ async def dadjoke(ctx):
 async def gif(ctx, *args):
     searchQuery = ' '.join(args)
     if not searchQuery:
-        gifData   = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + apikeys['GIPHY']).json()
+        gifData   = requests.get('https://api.giphy.com/v1/gifs/random?api_key=' + config['APIKEYS']['GIPHY']).json()
         imageLink = gifData['data']['images']['original']['url']
         gifEmbed  = discord.Embed(url = imageLink, title = 'Here\'s your gif!', color = THEME)
         gifEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
         gifEmbed.set_image(url = imageLink)
 
     else:
-        gifData = requests.get('https://api.giphy.com/v1/gifs/search?api_key=' + apikeys['GIPHY'] + '&q=' + searchQuery + '&limit=50').json()
+        gifData = requests.get('https://api.giphy.com/v1/gifs/search?api_key=' + config['APIKEYS']['GIPHY'] + '&q=' + searchQuery + '&limit=50').json()
         searchResults = gifData['pagination']['total_count']
         searchCount   = gifData['pagination']['count']
 

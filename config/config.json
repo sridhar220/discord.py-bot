@@ -5,5 +5,10 @@
 
     "CREATOR" : {
         "ID"  : "ENTER-CREATOR'S-DISCORD-ID" 
+    },
+
+    "APIKEYS" : {
+        "GIPHY"   : "ENTER-GIPHY-API-KEY",
+        "WEATHER" : "ENTER-OPENWEATHERMAP-API-KEY"
     }
 }
