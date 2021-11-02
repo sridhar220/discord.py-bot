@@ -1,2 +1,2 @@
 # discord.py-bot
-A discord bot that I made in my spare time.
+A discord bot that I made in my spare time using python.

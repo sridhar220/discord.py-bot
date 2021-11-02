@@ -238,7 +238,6 @@ async def animesearch(ctx, *args):
     animeAirDate     = animeData['data'][0]['attributes']['startDate']
     animeEndDate     = animeData['data'][0]['attributes']['endDate']
     ageRating        = animeData['data'][0]['attributes']['ageRating']
-    ageRatingGuide   = animeData['data'][0]['attributes']['ageRatingGuide']
 
     animeEmbed = discord.Embed(url = animeURL, title = animeTitle, description = animeDescription, color = THEME)
     animeEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
@@ -249,9 +248,6 @@ async def animesearch(ctx, *args):
     animeEmbed.add_field(name = 'Air Date'        , value = animeAirDate)
     animeEmbed.add_field(name = 'End Date'        , value = animeEndDate)
     animeEmbed.add_field(name = 'Age Rating'      , value = ageRating)
-
-    if ageRatingGuide:
-        animeEmbed.add_field(name = 'Age Rating Guide', value = ageRatingGuide)
 
     await ctx.send(embed = animeEmbed)
     
