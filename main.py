@@ -168,7 +168,7 @@ async def gif(ctx, *args):
 async def waifu(ctx):
     waifuData  = requests.get('https://api.waifu.pics/sfw/waifu').json()
     imageLink  = waifuData['url']
-    waifuEmbed = discord.Embed(url = imageLink, title = 'Here\'s your waifu ' + ctx.author.name + '-kun!', color = THEME)
+    waifuEmbed = discord.Embed(url = imageLink, title = 'Here\'s your waifu' + ctx.author.name + '-kun!', color = THEME)
     waifuEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
     waifuEmbed.set_image(url = imageLink)
 
@@ -179,14 +179,18 @@ async def anipic(ctx, *args):
     picQuery = ' '.join(args).lower()
     picList = ['poke','neko','shinobu','megumin','bully','cuddle','cry','hug','awoo','kiss','lick','pat','smug','bonk','yeet','blush','smile','wave','highfive','handhold','nom','bite','glomp','slap','kill','happy','wink','dance','cringe']
     listLength = len(picList)
+
+    async def embed(link):
+        picEmbed = discord.Embed(url = link, title = 'Here\'s your anime picture!', color = THEME)
+        picEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
+        picEmbed.set_image(url = link)
+        await ctx.send(embed = picEmbed)
+
     if not picQuery:
         number = random.randint(0, listLength - 1)
         picData = requests.get('https://api.waifu.pics/sfw/' + picList[number]).json()
         imageLink = picData['url']
-
-        picEmbed = discord.Embed(url = imageLink, title = 'Here\'s your anime picture!', color = THEME)
-        picEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
-        picEmbed.set_image(url = imageLink)
+        embed(imageLink)
 
     else:
         category = ''
@@ -199,12 +203,7 @@ async def anipic(ctx, *args):
         
         picData = requests.get('https://api.waifu.pics/sfw/' + category).json()
         imageLink = picData['url']
-
-        picEmbed = discord.Embed(url = imageLink, title = 'Here\'s your anime picture!', color = THEME)
-        picEmbed.set_author(name = ctx.author.name + '#' + ctx.author.discriminator, icon_url = ctx.author.avatar_url)
-        picEmbed.set_image(url = imageLink)
-
-    await ctx.send(embed = picEmbed)
+        embed(imageLink)
 
 @client.command()
 async def aniquote(ctx):
